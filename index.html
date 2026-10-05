@@ -68,6 +68,13 @@ h1{font-family:"Barlow Condensed",Arial,sans-serif;text-transform:uppercase;font
 .item-btn.on .flag{color:#E8A88C}
 .panel{padding:22px 0 0 34px;min-width:0}
 .panel-head{display:grid;grid-template-columns:1fr auto;gap:10px 28px;border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:22px}
+.grp-lbl{font-family:"Barlow Condensed",Arial,sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:600;padding:16px 4px 8px;border-bottom:2px solid currentColor}
+.grp-lbl:first-child{padding-top:0}
+.grp-lbl.needs{color:var(--rust)}
+.grp-lbl.done{color:var(--olive)}
+.stb{display:inline-block;vertical-align:middle;font-size:11px;letter-spacing:.14em;font-weight:600;padding:4px 9px;margin-left:10px;color:#F6EFE7;position:relative;top:-4px}
+.stb.needs{background:var(--rust)}
+.stb.done{background:var(--olive)}
 .panel-head h4{font-family:"Barlow Condensed",Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:clamp(26px,3.4vw,38px);line-height:1;margin:0;grid-column:1/-1}
 .ph-price{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;white-space:pre-line;line-height:1.5}
 .ph-price a{color:var(--rust);text-decoration:none;border-bottom:1px solid var(--rust);font-weight:500}
@@ -181,10 +188,10 @@ dialog.lb figcaption{color:var(--paper);font-family:"Barlow Condensed",Arial,san
   <div class="sec-head">
     <h2><span class="n">01</span>Ready for approval</h2>
   </div>
-  <p style="margin:0 0 6px;color:var(--ink-soft);font-size:15px">Priced, lead time confirmed, ready to order once approved. The outlined card is the version going forward where one has been set.</p>
+  <p style="margin:0 0 6px;color:var(--ink-soft);font-size:15px">Items that still need approval come first, followed by what's already approved. The outlined card is the version going forward where one has been set.</p>
   <div class="cols">
     <nav class="manifest" aria-label="Items">
-      <h3>Items</h3>
+      
       <div id="list"></div>
     </nav>
     <section class="panel">
@@ -314,8 +321,8 @@ const DATA = [
   layout:"sq",
   groups:[
     { title:"Metallic silver", sub:"The direction going forward.", cards:[
-      { id:"cocktail-napkins/01-silver-sr-hotel", name:"Silver, SR with Hotel", rec:true, strip:"Going with silver" },
-      { id:"cocktail-napkins/03-silver-sr-only", name:"Silver, SR monogram only", rec:true, strip:"Going with silver" }
+      { id:"cocktail-napkins/01-silver-sr-hotel", name:"Silver, SR with Hotel", strip:"Option" },
+      { id:"cocktail-napkins/03-silver-sr-only", name:"Silver, SR monogram only", strip:"Option" }
     ]},
     { title:"Metallic gold", sub:"The other color the stock takes.", cards:[
       { id:"cocktail-napkins/04-gold-sr-hotel", name:"Gold, SR with Hotel" },
@@ -340,8 +347,8 @@ const DATA = [
   layout:"wide",
   groups:[
     { title:"", cards:[
-      { id:"welcome-plates/01-warm-white-text", name:"Warm white text", rec:true, strip:"Going forward", caveat:"Text matches the warm white LED." },
-      { id:"welcome-plates/02-crimson-text", name:"Crimson text", strip:"Alternate", caveat:"Crimson print on the warm white LED." }
+      { id:"welcome-plates/01-warm-white-text", name:"Warm white text", strip:"Option", caveat:"Text matches the warm white LED." },
+      { id:"welcome-plates/02-crimson-text", name:"Crimson text", strip:"Option", caveat:"Crimson print on the warm white LED." }
     ]}
   ]},
 { item:"Directional signage", flag:"4 boards",
@@ -407,7 +414,7 @@ const DATA = [
 { item:"Step and repeat", flag:"Urgent",
   price:"Not yet priced", vendor:"", url:"",
   lead:"4 weeks from payment",
-  intro:"SR monogram built as a hotel tower in the red rocks. mike. wants the image moved lower so there's room above it for a Welcome to SR Hotel title.",
+  intro:"SR monogram built as a hotel tower in the red rocks. The image moves lower to make room for a Welcome to SR Hotel title above it.",
   decide:{lbl:"Urgent", text:"Lead time runs from payment. Paying after Oct 16 puts delivery past Nov 13."},
   layout:"tallwide",
   groups:[
@@ -418,12 +425,12 @@ const DATA = [
 { item:"Posters", flag:"2 designs",
   price:"Not yet priced", vendor:"", url:"",
   lead:"TBC",
-  intro:"11x17 gloss. Josh's Red Rocks artwork, formatted by Clark. Josh signed off on both after adjusting the sizing and optical alignment.",
+  intro:"11x17 gloss. Josh's Red Rocks artwork, formatted by Clark. Josh adjusted the sizing and optical alignment and is happy with both.",
   layout:"tallwide",
   groups:[
     { title:"", cards:[
-      { id:"posters/script-inbetween", rec:true, strip:"Josh approved", name:"Script mike., Welcome to the inbetween" },
-      { id:"posters/block-live", rec:true, strip:"Josh approved", name:"Block letter mike., Live from Red Rocks 2026" }
+      { id:"posters/script-inbetween", strip:"Needs approval", name:"Script logo, Welcome to the inbetween" },
+      { id:"posters/block-live", strip:"Needs approval", name:"Block letter logo, Live from Red Rocks 2026" }
     ]}
   ]},
 { item:"Stickers", flag:"6 designs",
@@ -441,7 +448,7 @@ const DATA = [
 const T2 = [
   ["Gobos","go","Waiting on Clark","Needed from Clark"],
   ["DND signs","go","Waiting on Clark","Approved design, remake for the vendor template"],
-  ["Step and repeat","go","In progress","Revision for mike.'s Welcome to SR Hotel title"]
+  ["Step and repeat","go","In progress","Revision to add a Welcome to SR Hotel title"]
 ];
 
 const T3 = [
@@ -482,8 +489,8 @@ const P5 = [
     "InstaWork at <span class=m>$3,666</span> for the weekend. W2 rather than 1099, 45% markup which is their Colorado floor. Onboarding call Oct 13.",
     "Denver PD at <span class=m>$1,615</span>, two officers, 6pm to 2:30am Friday. Saturday not confirmed.",
     "Private security at <span class=m>$4,750</span>, not yet repriced for the plan below.",
-    "Fader's plan for Friday is 3 at the pop-up (entrance, exit, line control) and 4 at the listening party (2 entrance, 2 line control), plus the two officers. mike. is fine with that.",
-    "<span class=flagline>Saturday still open. mike. also wants 2 guards at the store every day it's open.</span>",
+    "Fader's plan for Friday is 3 at the pop-up (entrance, exit, line control) and 4 at the listening party (2 entrance, 2 line control), plus the two officers.",
+    "<span class=flagline>Saturday still open, along with 2 guards at the store every day it's open.</span>",
     "Content crew at <span class=m>$15,000</span>, six people, four camera and two drone."
   ]},
   { t:"Listening booths", p:[
@@ -495,7 +502,7 @@ const P5 = [
     "Underdog at <span class=m>$10,000</span>. Certified Tattoo at <span class=m>$1,000</span>.",
     "Confirmed in kind: Magic Mind, Dude Wipes, Torchy's, FreeRolls.",
     "Discussions underway: NOCA, Happy Dad, Celsius, Mom Water, Skip, etc.",
-    "FreeRolls is locked. Custom papers with The Highs. cover, a mike. illustration and a Spotify code. They arrive at FreeRolls' office late October and are held for us on arrival. Red Rocks tickets go into their giveaway content ahead of the shows."
+    "FreeRolls is locked. Custom papers with The Highs. cover, an illustrated crowd scene and a Spotify code. They arrive at FreeRolls' office late October and are held for us on arrival. Red Rocks tickets go into their giveaway content ahead of the shows."
   ]},
   { t:"Shipping", p:[
     "Not shipping to the hotel, they route everything through FedEx Office at <span class=m>$15 to $66</span> a box.",
@@ -522,9 +529,13 @@ function card(o, layout){
   return el;
 }
 
+const ORDER=["Posters","Stickers","Wristbands","Cocktail menu signs","Cocktail napkins","Welcome plates, front desk","Directional signage","Gobos","Step and repeat","Bracelets","Red carpet","DND signs"];
+const DONE=new Set(["Bracelets","Red carpet","DND signs"]);
+DATA.sort((a,b)=>ORDER.indexOf(a.item)-ORDER.indexOf(b.item));
+DATA.forEach(d=>d.st=DONE.has(d.item)?'done':'needs');
 function render(i){
   const d=DATA[i];
-  document.getElementById('phead').innerHTML=`<h4>${d.item}</h4>
+  document.getElementById('phead').innerHTML=`<h4>${d.item} <span class="stb ${d.st}">${d.st==='needs'?'Needs approval':'Approved'}</span></h4>
     <div class="ph-price"><span class="lbl">Price and vendor</span>${d.price}${d.url?`\n<a href="${d.url}" target="_blank" rel="noopener">${d.vendor}</a>`:''}</div>
     <div class="ph-lead"><span class="lbl">Lead time</span>${d.lead}</div>`;
   document.getElementById('pnotes').innerHTML=
@@ -538,11 +549,12 @@ function render(i){
     g.cards.forEach((c,n)=>{const el=card(c,d.layout); el.style.animationDelay=(n*0.03)+'s'; grid.appendChild(el);});
     sec.appendChild(grid); groups.appendChild(sec);
   });
-  [...list.children].forEach((b,n)=>b.classList.toggle('on',n===i));
+  list.querySelectorAll('.item-btn').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
 }
 
 DATA.forEach((d,i)=>{
-  const b=document.createElement('button'); b.className='item-btn';
+  if(i===0||DATA[i-1].st!==d.st){const h=document.createElement('div'); h.className='grp-lbl '+d.st; h.textContent=d.st==='needs'?'Needs approval':'Approved'; list.appendChild(h);}
+  const b=document.createElement('button'); b.className='item-btn'; b.dataset.i=i;
   b.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}</span><span>${d.item}</span><span class="flag">${d.flag}</span>`;
   b.onclick=()=>render(i); list.appendChild(b);
 });
